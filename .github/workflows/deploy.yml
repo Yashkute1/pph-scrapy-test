@@ -1,0 +1,31 @@
+name: Deploy to Scrapy Cloud
+
+# Deploys this spider to your Zyte Scrapy Cloud project automatically.
+# Runs on every push to main, and can also be triggered by hand from the
+# Actions tab (Run workflow). No local PC / no shub install needed.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install shub
+        run: pip install shub
+
+      - name: Deploy to Scrapy Cloud
+        env:
+          # shub reads the API key from this env var for non-interactive deploys.
+          # Add it under: repo Settings -> Secrets and variables -> Actions ->
+          # New repository secret -> name SHUB_APIKEY, value = your Zyte API key.
+          SHUB_APIKEY: ${{ secrets.SHUB_APIKEY }}
+        run: shub deploy 867319
