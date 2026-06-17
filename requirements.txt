@@ -1,0 +1,2 @@
+# Scrapy Cloud's scrapy:2.11 stack already includes Scrapy.
+# Nothing extra is needed for this test spider.
